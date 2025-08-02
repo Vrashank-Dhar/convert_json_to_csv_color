@@ -1,0 +1,77 @@
+import pandas as pd
+import json
+import os
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import PatternFill
+
+# 📌 Update this with your JSON file name
+input_file = "Functional testing.postman_test_run.json"  # Ensure correct file name
+output_csv = "output.csv"
+output_excel = "output.xlsx"
+
+try:
+    # ✅ Load the JSON file
+    with open(input_file, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    # ✅ Extract API test results
+    api_results = data.get("results", [])
+
+    # ✅ Convert JSON data into structured rows
+    rows = []
+    for result in api_results:
+        # Handle multiple response times
+        response_times = result.get("times", [result.get("time", "N/A")])
+        
+        for time in response_times:
+            rows.append({
+                "URL": result.get("url", "Unknown URL"),
+                "Response Time (ms)": time,
+                "Response Code": result.get("responseCode", {}).get("code", "N/A")
+            })
+
+    # ✅ Create a DataFrame
+    df = pd.DataFrame(rows)
+
+    # ✅ Save to CSV
+    df.to_csv(output_csv, index=False, encoding="utf-8")
+
+    # ✅ Save to Excel for coloring
+    df.to_excel(output_excel, index=False)
+
+    # ✅ Load the workbook for formatting
+    wb = load_workbook(output_excel)
+    ws = wb.active
+
+    # ✅ Define stronger color fills
+    red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Strong Red for > 500ms
+    orange_fill = PatternFill(start_color="FFA500", end_color="FFA500", fill_type="solid")  # Orange for > 250ms
+
+    # ✅ Identify response time column
+    response_time_column = None
+    for col_idx, col_name in enumerate(df.columns, start=1):
+        if "response time" in col_name.lower():
+            response_time_column = col_idx
+            break
+
+    # ✅ Apply color formatting
+    if response_time_column:
+        for row in range(2, ws.max_row + 1):  # Skip header
+            cell = ws.cell(row=row, column=response_time_column)
+            if isinstance(cell.value, (int, float)):
+                if cell.value > 500:
+                    cell.fill = red_fill  # 🔴 Strong Red
+                elif cell.value > 250:
+                    cell.fill = orange_fill  # 🟠 Orange
+
+    # ✅ Save the formatted Excel file
+    wb.save(output_excel)
+
+    # ✅ Success Message
+    print(f"🎉 Conversion Complete! Files saved as 📝 {output_csv} and 📊 {output_excel}")
+
+    # ✅ Open file location (Windows only)
+    os.startfile(os.getcwd())
+
+except Exception as e:
+    print(f"❌ Error: {e}")
