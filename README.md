@@ -1,22 +1,30 @@
-# convert_json_to_csv_color
-# 📊 Postman JSON → CSV & Excel Formatter
+<h1 align="center">📊 Postman JSON Parser & Formatter</h1>
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![pandas](https://img.shields.io/badge/pandas-✔️-orange.svg)](https://pandas.pydata.org/)
-[![openpyxl](https://img.shields.io/badge/openpyxl-✔️-green.svg)](https://openpyxl.readthedocs.io/)
+<p align="center">
+  Converts Postman test run JSON files into <strong>CSV</strong> and <strong>Color-Coded Excel</strong> reports.<br>
+  🔍 Perfect for analyzing API performance at scale.
+</p>
 
-🚀 A simple Python script that **parses Postman test run results** (from `.postman_test_run.json` files), extracts key data like response times and status codes, and exports the results to:
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue?style=flat-square"/>
+  <img src="https://img.shields.io/badge/pandas-✔️-orange?style=flat-square"/>
+  <img src="https://img.shields.io/badge/openpyxl-✔️-green?style=flat-square"/>
+</p>
 
-- 📄 **CSV file**
-- 📊 **Excel file with conditional formatting** for response times.
+---
+
+## 🚀 Overview
+
+This script takes a `.postman_test_run.json` file from Postman’s CLI/Collection Runner and transforms it into:
+
+- 📄 A clean, tabular **CSV**
+- 📊 An **Excel file** with conditional formatting based on response time
+
+Use it to quickly spot slow endpoints, failed responses, or inconsistent API behavior.
 
 ---
 
-## 📁 Input
+## 📂 Input
 
-Place your Postman JSON result file in the project directory.
-
-```python
-input_file = "Functional testing.postman_test_run.json"
-
----
+```bash
+Functional testing.postman_test_run.json
