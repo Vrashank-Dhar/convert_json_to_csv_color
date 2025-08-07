@@ -18,3 +18,13 @@ Place your Postman JSON result file in the project directory.
 
 ```python
 input_file = "Functional testing.postman_test_run.json"
+
+---
+
+### ✅ Next Steps
+
+- Save this as `README.md` in your repo root.
+- Add screenshots of the Excel file with colors if you want to showcase visuals.
+- Consider linking to Postman's documentation or sample `.postman_test_run.json` files if you're sharing publicly.
+
+Let me know if you want a badge for test coverage, CI/CD, or Python version matrix.
